@@ -1,6 +1,6 @@
 package com.communicare.CommuniCareBackend.Application.dto;
 
-import com.communicare.CommuniCareBackend.Domain.entity.OurUsers;
+import com.communicare.CommuniCareBackend.Domain.entity.Users;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class ReqRes {
     private String role;
     private String email;
     private String password;
-    private OurUsers ourUsers;
-    private List<OurUsers> ourUsersList;
+    private Users ourUsers;
+    private List<Users> ourUsersList;
 
 }
