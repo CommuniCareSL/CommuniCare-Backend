@@ -1,7 +1,7 @@
 package com.communicare.CommuniCareBackend.Application.controllers;
 
 import com.communicare.CommuniCareBackend.Application.dto.ReqRes;
-import com.communicare.CommuniCareBackend.Domain.entity.OurUsers;
+import com.communicare.CommuniCareBackend.Domain.entity.Users;
 import com.communicare.CommuniCareBackend.Domain.service.UsersManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +43,7 @@ public class UserManagementController {
     }
 
     @PutMapping("/admin/update/{userId}")
-    public ResponseEntity<ReqRes> updateUser(@PathVariable Integer userId, @RequestBody OurUsers reqres){
+    public ResponseEntity<ReqRes> updateUser(@PathVariable Integer userId, @RequestBody Users reqres){
         return ResponseEntity.ok(usersManagementService.updateUser(userId, reqres));
     }
 
