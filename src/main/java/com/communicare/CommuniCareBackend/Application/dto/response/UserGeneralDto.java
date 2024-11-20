@@ -1,6 +1,5 @@
 package com.communicare.CommuniCareBackend.Application.dto.response;
 
-import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
