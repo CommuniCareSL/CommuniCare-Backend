@@ -1,21 +1,41 @@
 package com.communicare.CommuniCareBackend.Domain.entity;
+//Mobile App
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+//Mobile App
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Data // For getters and setters or @Getter
+@Table(name = "users")
+@Getter // Lombok generates getters for all fields
+@Setter // Lombok generates setters for all fields
 public class User {
 
     @Id
-    private int id;
-    private String name;
-    private String address;
-}
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId; // Primary key
 
-// example
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "id_number")
+    private String idNumber;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "district")
+    private String district;
+
+    @Column(name = "pradeshiya_sabaha")
+    private String pradeshiyaSabaha;
+
+    @Column(name = "email", unique = true)
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    // Constructor and other methods can be added if needed
+}
