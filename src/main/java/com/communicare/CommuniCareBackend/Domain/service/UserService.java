@@ -1,31 +1,46 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
-import com.communicare.CommuniCareBackend.Application.dto.response.UserGeneralDto;
+//Mobile App
 import com.communicare.CommuniCareBackend.Domain.entity.User;
 import com.communicare.CommuniCareBackend.External.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
+import com.communicare.CommuniCareBackend.Application.dto.response.SignUpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public ResponseEntity<UserGeneralDto> getUser(Integer id) {
-        UserGeneralDto userGeneralDto = new UserGeneralDto();
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            userGeneralDto.setId(user.getId());
-            userGeneralDto.setName(user.getName());
-            return ResponseEntity.ok(userGeneralDto);
-        } else {
-            return ResponseEntity.notFound().build();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public SignUpResponse registerUser(SignUpRequest signUpRequest) {
+        Optional<User> existingUserByEmail = userRepository.findByEmail(signUpRequest.getEmail());
+        if (existingUserByEmail.isPresent()) {
+            throw new IllegalArgumentException("Email already exists.");
         }
+
+        Optional<User> existingUserByIdNumber = userRepository.findByIdNumber(signUpRequest.getIdNumber());
+        if (existingUserByIdNumber.isPresent()) {
+            throw new IllegalArgumentException("ID Number already exists.");
+        }
+
+        User user = new User();
+        user.setFullName(signUpRequest.getFullName());
+        user.setIdNumber(signUpRequest.getIdNumber());
+        user.setPhoneNumber(signUpRequest.getPhoneNumber());
+        user.setDistrict(signUpRequest.getDistrict());
+        user.setPradeshiyaSabaha(signUpRequest.getPradeshiyaSabaha());
+        user.setEmail(signUpRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+
+        User savedUser = userRepository.save(user);
+
+        return new SignUpResponse(savedUser.getUserId(), "User registered successfully.");
     }
 }
-// example

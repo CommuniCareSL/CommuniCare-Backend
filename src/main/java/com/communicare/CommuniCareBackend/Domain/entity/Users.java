@@ -1,6 +1,6 @@
 package com.communicare.CommuniCareBackend.Domain.entity;
 
-
+//Web App
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "employees")
 @Data
 public class Users implements UserDetails {
 
