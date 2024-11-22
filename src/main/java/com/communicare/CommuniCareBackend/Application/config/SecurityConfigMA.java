@@ -7,9 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class SecurityConfigMA {
+public class SecurityConfigMA implements WebMvcConfigurer {
 
     // This method configures HTTP security for the application
     @Bean
@@ -21,7 +22,6 @@ public class SecurityConfigMA {
                                 .requestMatchers("/api/users/sign-up").permitAll()  // Allow unauthenticated access to sign-up endpoint
                                 .anyRequest().authenticated()  // Other requests require authentication
                 );
-
         return http.build();
     }
 
@@ -31,12 +31,13 @@ public class SecurityConfigMA {
         return new BCryptPasswordEncoder();
     }
 
-//    @Override
+    // CORS configuration
+    @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000", "http://192.168.8.116:8080")  // Adjust this as needed
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowCredentials(true);  // Allow credentials (cookies, authentication headers)
     }
 }
