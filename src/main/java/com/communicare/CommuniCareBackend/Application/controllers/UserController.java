@@ -1,39 +1,26 @@
 package com.communicare.CommuniCareBackend.Application.controllers;
+//Mobile App
 
-import com.communicare.CommuniCareBackend.Application.dto.response.UserDTO;
-import com.communicare.CommuniCareBackend.Application.dto.response.UserGeneralDto;
 import com.communicare.CommuniCareBackend.Domain.service.UserService;
-import lombok.AllArgsConstructor;
+import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
+import com.communicare.CommuniCareBackend.Application.dto.response.SignUpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+//Mobile App
+
 @RestController
-@RequestMapping("/user")
-@AllArgsConstructor
+@RequestMapping("/api/users")
 public class UserController {
 
+    @Autowired
     private UserService userService;
 
-    @GetMapping("/getUser")
-    public ResponseEntity<UserGeneralDto> getUser(@RequestParam Integer id) {
-        return userService.getUser(id);
-    }
-
-    @PostMapping("/add")
-    public String addUser() {
-        return "User added";
-    }
-
-    //Custom SQL
-//    @GetMapping("/getUserByUserId/{userID}")
-//    public UserDTO getUserByUserID(@PathVariable String userID){
-//        return userService.getUserByUserID(userID);
-//    }
-
-    @GetMapping("/getUserByUserIDAndAddress/{userID}/{address}")
-    public String getUserByUserIDAndAddress(@PathVariable String userID ,@PathVariable String address){
-        System.out.println("User ID :"+ userID +"User address :" +address);
-        return "Success";
+    @PostMapping("/sign-up")
+    public ResponseEntity<SignUpResponse> signUp(@Validated @RequestBody SignUpRequest signUpRequest) {
+        SignUpResponse response = userService.registerUser(signUpRequest);
+        return ResponseEntity.ok(response);
     }
 }
-// example
