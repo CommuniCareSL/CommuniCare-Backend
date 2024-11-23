@@ -7,6 +7,7 @@ import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
 import com.communicare.CommuniCareBackend.Application.dto.response.SignUpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,5 +44,27 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return new SignUpResponse(savedUser.getUserId(), "User registered successfully.");
+    }
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+
+    public String loginUser(String email, String password) {
+        // Check if the user exists by email
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+
+        // Check if the password is correct
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("Invalid email or password.");
+        }
+
+        // Check if the user is blocked
+        if (user.getIsBlock() == 1) {
+            throw new IllegalStateException("This account is blocked. Please contact support.");
+        }
+
+        // If all checks pass, return a success message or token
+        return "Login successful!";
     }
 }
