@@ -1,6 +1,9 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
 //Mobile App
+import com.communicare.CommuniCareBackend.Application.config.JWTUtilMA;
+import com.communicare.CommuniCareBackend.Application.dto.request.LoginRequest;
+import com.communicare.CommuniCareBackend.Application.dto.response.LoginResponse;
 import com.communicare.CommuniCareBackend.Domain.entity.User;
 import com.communicare.CommuniCareBackend.External.repository.UserRepository;
 import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
@@ -10,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -46,25 +51,55 @@ public class UserService {
         return new SignUpResponse(savedUser.getUserId(), "User registered successfully.");
     }
 
+    @Autowired
+    private JWTUtilMA jwtUtil;
+
+    public LoginResponse authenticateUser(LoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Invalid email or password");
+        }
+
+        if (user.getIsBlock() == 1) {
+            throw new IllegalArgumentException("User is blocked");
+        }
+
+        // Add user details to the JWT claims
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getUserId());
+        claims.put("fullName", user.getFullName());
+        claims.put("idNumber", user.getIdNumber());
+        claims.put("pradeshiyaSabaha", user.getPradeshiyaSabaha());
+
+        // Generate JWT token
+        String token = jwtUtil.generateToken(claims, user.getEmail());
+
+        return new LoginResponse(token, "Login successful");
+    }
+
+
+//without JWT
 //    @Autowired
 //    private PasswordEncoder passwordEncoder;
 
-    public String loginUser(String email, String password) {
-        // Check if the user exists by email
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
-
-        // Check if the password is correct
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("Invalid email or password.");
-        }
-
-        // Check if the user is blocked
-        if (user.getIsBlock() == 1) {
-            throw new IllegalStateException("This account is blocked. Please contact support.");
-        }
-
-        // If all checks pass, return a success message or token
-        return "Login successful!";
-    }
+//    public String loginUser(String email, String password) {
+//        // Check if the user exists by email
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+//
+//        // Check if the password is correct
+//        if (!passwordEncoder.matches(password, user.getPassword())) {
+//            throw new IllegalArgumentException("Invalid email or password.");
+//        }
+//
+//        // Check if the user is blocked
+//        if (user.getIsBlock() == 1) {
+//            throw new IllegalStateException("This account is blocked. Please contact support.");
+//        }
+//
+//        // If all checks pass, return a success message or token
+//        return "Login successful!";
+//    }
 }
