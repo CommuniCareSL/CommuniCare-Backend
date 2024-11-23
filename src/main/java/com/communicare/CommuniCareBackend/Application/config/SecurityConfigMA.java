@@ -20,6 +20,7 @@ public class SecurityConfigMA implements WebMvcConfigurer {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/users/sign-up").permitAll()  // Allow unauthenticated access to sign-up endpoint
+                                .requestMatchers("/api/users/login").permitAll()  // Allow unauthenticated access to log-up endpoint
                                 .anyRequest().authenticated()  // Other requests require authentication
                 );
         return http.build();
