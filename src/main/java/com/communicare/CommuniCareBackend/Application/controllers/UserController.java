@@ -29,9 +29,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
-        log.info("Login request");
-        String message = userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
-        return ResponseEntity.ok(new LoginResponse(message));
+    public LoginResponse login(@Valid @RequestBody LoginRequest loginRequest) {
+        return userService.authenticateUser(loginRequest);
     }
+//without jwt
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
+//        log.info("Login request");
+//        String message = userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
+//        return ResponseEntity.ok(new LoginResponse(message));
+//    }
 }
