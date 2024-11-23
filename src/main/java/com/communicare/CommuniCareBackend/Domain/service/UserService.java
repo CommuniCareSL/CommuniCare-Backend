@@ -38,6 +38,7 @@ public class UserService {
         user.setPradeshiyaSabaha(signUpRequest.getPradeshiyaSabaha());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setIsBlock(0);  // Set default value for isBlock
 
         User savedUser = userRepository.save(user);
 
