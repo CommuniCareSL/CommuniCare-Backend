@@ -37,5 +37,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0") // Default value 0
+    private int isBlock;
+
     // Constructor and other methods can be added if needed
 }
