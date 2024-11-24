@@ -1,6 +1,7 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
 //Mobile App
+import com.communicare.CommuniCareBackend.Application.dto.response.UserResponse;
 import com.communicare.CommuniCareBackend.Domain.entity.User;
 import com.communicare.CommuniCareBackend.External.repository.UserRepository;
 import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -42,5 +45,22 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return new SignUpResponse(savedUser.getUserId(), "User registered successfully.");
+    }
+
+    //web Application
+    //New method to retrieve users by pradeshiyaSabaha
+    public List<UserResponse> getUsersByPradeshiyaSabaha(String pradeshiyaSabaha) {
+        List<User> users = userRepository.findByPradeshiyaSabaha(pradeshiyaSabaha);
+        return users.stream()
+                .map(user -> new UserResponse(
+                        user.getUserId(),
+                        user.getFullName(),
+                        user.getIdNumber(),
+                        user.getPhoneNumber(),
+                        user.getDistrict(),
+                        user.getPradeshiyaSabaha(),
+                        user.getEmail()
+                ))
+                .collect(Collectors.toList());
     }
 }
