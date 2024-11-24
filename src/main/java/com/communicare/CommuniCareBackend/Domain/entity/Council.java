@@ -31,4 +31,3 @@ public class Council {
     @Column(nullable = false)
     private String email;
 }
-
