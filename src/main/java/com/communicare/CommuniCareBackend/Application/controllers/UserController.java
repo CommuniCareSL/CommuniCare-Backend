@@ -1,39 +1,42 @@
 package com.communicare.CommuniCareBackend.Application.controllers;
+//Mobile App
 
-import com.communicare.CommuniCareBackend.Application.dto.response.UserDTO;
-import com.communicare.CommuniCareBackend.Application.dto.response.UserGeneralDto;
+import com.communicare.CommuniCareBackend.Application.dto.request.LoginRequest;
+import com.communicare.CommuniCareBackend.Application.dto.response.LoginResponse;
 import com.communicare.CommuniCareBackend.Domain.service.UserService;
-import lombok.AllArgsConstructor;
+import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
+import com.communicare.CommuniCareBackend.Application.dto.response.SignUpResponse;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+//Mobile App
+@Slf4j
 @RestController
-@RequestMapping("/user")
-@AllArgsConstructor
+@RequestMapping("/api/users")
 public class UserController {
 
+    @Autowired
     private UserService userService;
 
-    @GetMapping("/getUser")
-    public ResponseEntity<UserGeneralDto> getUser(@RequestParam Integer id) {
-        return userService.getUser(id);
+    @PostMapping("/sign-up")
+    public ResponseEntity<SignUpResponse> signUp(@Validated @RequestBody SignUpRequest signUpRequest) {
+        SignUpResponse response = userService.registerUser(signUpRequest);
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/add")
-    public String addUser() {
-        return "User added";
+    @PostMapping("/login")
+    public LoginResponse login(@Valid @RequestBody LoginRequest loginRequest) {
+        return userService.authenticateUser(loginRequest);
     }
-
-    //Custom SQL
-//    @GetMapping("/getUserByUserId/{userID}")
-//    public UserDTO getUserByUserID(@PathVariable String userID){
-//        return userService.getUserByUserID(userID);
+//without jwt
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
+//        log.info("Login request");
+//        String message = userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
+//        return ResponseEntity.ok(new LoginResponse(message));
 //    }
-
-    @GetMapping("/getUserByUserIDAndAddress/{userID}/{address}")
-    public String getUserByUserIDAndAddress(@PathVariable String userID ,@PathVariable String address){
-        System.out.println("User ID :"+ userID +"User address :" +address);
-        return "Success";
-    }
 }
-// example

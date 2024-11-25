@@ -5,10 +5,12 @@ import lombok.Data;
 
 @Entity
 @Data
+
 public class Complaint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+  
     private int complaintId;
 
     @Column(columnDefinition = "TEXT")
