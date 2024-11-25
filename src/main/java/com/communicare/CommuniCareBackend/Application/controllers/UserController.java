@@ -31,18 +31,6 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-
-    //web application
-    // New endpoint to get users by pradeshiyaSabaha
-    @GetMapping("/pradeshiyaSabaha/{pradeshiyaSabaha}")
-    public ResponseEntity<List<UserResponse>> getUsersByPradeshiyaSabaha(@PathVariable String pradeshiyaSabaha) {
-        List<UserResponse> users = userService.getUsersByPradeshiyaSabaha(pradeshiyaSabaha);
-        if (users.isEmpty()) {
-            return ResponseEntity.noContent().build(); // Returns 204 No Content if no users are found
-        }
-        return ResponseEntity.ok(users);
-    }
-
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest loginRequest) {
         return userService.authenticateUser(loginRequest);

@@ -53,23 +53,6 @@ public class UserService {
 
         return new SignUpResponse(savedUser.getUserId(), "User registered successfully.");
     }
-
-    //web Application
-    //New method to retrieve users by pradeshiyaSabaha
-    public List<UserResponse> getUsersByPradeshiyaSabaha(String pradeshiyaSabaha) {
-        List<User> users = userRepository.findByPradeshiyaSabaha(pradeshiyaSabaha);
-        return users.stream()
-                .map(user -> new UserResponse(
-                        user.getUserId(),
-                        user.getFullName(),
-                        user.getIdNumber(),
-                        user.getPhoneNumber(),
-                        user.getDistrict(),
-                        user.getPradeshiyaSabaha(),
-                        user.getEmail()
-                ))
-                .collect(Collectors.toList());
-    }
   
     @Autowired
     private JWTUtilMA jwtUtil;
