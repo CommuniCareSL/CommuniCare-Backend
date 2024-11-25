@@ -1,6 +1,7 @@
 package com.communicare.CommuniCareBackend.Application.controllers;
 //Mobile App
 
+import com.communicare.CommuniCareBackend.Application.dto.response.UserResponse;
 import com.communicare.CommuniCareBackend.Application.dto.request.LoginRequest;
 import com.communicare.CommuniCareBackend.Application.dto.response.LoginResponse;
 import com.communicare.CommuniCareBackend.Domain.service.UserService;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //Mobile App
 @Slf4j

@@ -1,6 +1,7 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
 //Mobile App
+import com.communicare.CommuniCareBackend.Application.dto.response.UserResponse;
 import com.communicare.CommuniCareBackend.Application.config.JWTUtilMA;
 import com.communicare.CommuniCareBackend.Application.dto.request.LoginRequest;
 import com.communicare.CommuniCareBackend.Application.dto.response.LoginResponse;
@@ -13,9 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -50,7 +53,7 @@ public class UserService {
 
         return new SignUpResponse(savedUser.getUserId(), "User registered successfully.");
     }
-
+  
     @Autowired
     private JWTUtilMA jwtUtil;
 
