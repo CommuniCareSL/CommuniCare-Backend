@@ -17,4 +17,8 @@ public class CompanyDepartment {
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
+
+    @ManyToOne
+    @JoinColumn(name = "complaint_handler_id", nullable = false)
+    private Employee employee;
 }
