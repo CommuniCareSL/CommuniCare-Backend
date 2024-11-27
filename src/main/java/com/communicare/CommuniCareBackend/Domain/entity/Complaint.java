@@ -1,38 +1,36 @@
-package com.communicare.CommuniCareBackend.Application.entity;
-
+package com.communicare.CommuniCareBackend.Domain.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Table(name = "complaints")
 public class Complaint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long complaintId;
 
     @Column(nullable = false)
-    private String complaintCategory;
+    private String description;
 
-    @ElementCollection
-    private List<String> complaintProofImages; // Store image paths or URLs
+    @Lob
+    @Column
+    private byte[] proofs;  // Store image as binary data
 
     @Column(nullable = false)
     private String location;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String description;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
+    private User user;
 
-    @Column(nullable = false)
-    private String council;
+    @OneToOne
+    @JoinColumn(name = "sabha_id", referencedColumnName = "sabhaId", nullable = false)
+    private Sabha sabha;
 
-    @Column(nullable = false)
-    private String district;
+    @OneToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "ComplaintCategoryId", nullable = false)
+    private ComplaintCategory complaintCategory;
+
+    
 }
+
