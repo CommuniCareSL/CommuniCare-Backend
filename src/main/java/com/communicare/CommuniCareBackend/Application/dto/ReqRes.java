@@ -1,6 +1,7 @@
 package com.communicare.CommuniCareBackend.Application.dto;
 
-import com.communicare.CommuniCareBackend.Domain.entity.Users;
+import com.communicare.CommuniCareBackend.Domain.entity.CompanyDepartment;
+import com.communicare.CommuniCareBackend.Domain.entity.Employees;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -20,13 +21,12 @@ public class ReqRes {
     private String expirationTime;
     private String name;
     private String district;
-    private String sabaha;
-    private Integer registernumber;
-    private Integer number;
+    private Integer sabaha;
     private String role;
+    private Integer companyDepartmentId;
     private String email;
     private String password;
-    private Users ourUsers;
-    private List<Users> ourUsersList;
+    private Employees ourEmployees;
+    private List<Employees> ourEmployeesList;
 
 }
