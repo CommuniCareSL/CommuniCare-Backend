@@ -13,7 +13,7 @@ public class Company {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+//    @ManyToOne
+//    @JoinColumn(name = "organization_id", nullable = false)
+//    private Organization organization;
 }
