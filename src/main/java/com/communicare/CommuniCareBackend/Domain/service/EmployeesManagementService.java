@@ -1,8 +1,10 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
 import com.communicare.CommuniCareBackend.Application.dto.ReqRes;
-import com.communicare.CommuniCareBackend.Domain.entity.Users;
-import com.communicare.CommuniCareBackend.External.repository.UsersRepo;
+import com.communicare.CommuniCareBackend.Domain.entity.CompanyDepartment;
+import com.communicare.CommuniCareBackend.Domain.entity.Employees;
+import com.communicare.CommuniCareBackend.External.repository.CompanyDepartmentRepo;
+import com.communicare.CommuniCareBackend.External.repository.EmployeesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,10 +16,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsersManagementService {
+public class EmployeesManagementService {
 
     @Autowired
-    private UsersRepo usersRepo;
+    private EmployeesRepo employeesRepo;
+
+    @Autowired
+    private CompanyDepartmentRepo companyDepartmentRepo;
 
     @Autowired
     private JWTUtils jwtUtils;
@@ -32,18 +37,21 @@ public class UsersManagementService {
         ReqRes resp = new ReqRes();
 
         try {
-            Users ourUser = new Users();
+            Employees ourUser = new Employees();
             ourUser.setEmail(registrationRequest.getEmail());
             ourUser.setDistrict(registrationRequest.getDistrict());
             ourUser.setSabaha(registrationRequest.getSabaha());
             ourUser.setRole(registrationRequest.getRole());
-            ourUser.setRegisternumber(registrationRequest.getRegisternumber());
-            ourUser.setNumber(registrationRequest.getNumber());
             ourUser.setName(registrationRequest.getName());
+            // Fetch CompanyDepartment by ID
+            CompanyDepartment companyDepartment = companyDepartmentRepo
+                    .findById(registrationRequest.getCompanyDepartmentId())
+                    .orElseThrow(() -> new RuntimeException("Invalid company department ID"));
+            ourUser.setCompanyDepartmentId(companyDepartment);
             ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-            Users ourUsersResult = usersRepo.save(ourUser);
-            if (ourUsersResult.getId()>0) {
-                resp.setOurUsers((ourUsersResult));
+            Employees ourEmployeesResult = employeesRepo.save(ourUser);
+            if (ourEmployeesResult.getEmployeeId()>0) {
+                resp.setOurEmployees((ourEmployeesResult));
                 resp.setMessage("User Saved Successfully");
                 resp.setStatusCode(200);
             }
@@ -61,7 +69,7 @@ public class UsersManagementService {
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                             loginRequest.getPassword()));
-            var user = usersRepo.findByEmail(loginRequest.getEmail()).orElseThrow();
+            var user = employeesRepo.findByEmail(loginRequest.getEmail()).orElseThrow();
             var jwt = jwtUtils.generateToken(user);
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
@@ -82,9 +90,9 @@ public class UsersManagementService {
         ReqRes response = new ReqRes();
         try{
             String ourEmail = jwtUtils.extractUsername(refreshTokenReqiest.getToken());
-            Users users = usersRepo.findByEmail(ourEmail).orElseThrow();
-            if (jwtUtils.isTokenValid(refreshTokenReqiest.getToken(), users)) {
-                var jwt = jwtUtils.generateToken(users);
+            Employees employees = employeesRepo.findByEmail(ourEmail).orElseThrow();
+            if (jwtUtils.isTokenValid(refreshTokenReqiest.getToken(), employees)) {
+                var jwt = jwtUtils.generateToken(employees);
                 response.setStatusCode(200);
                 response.setToken(jwt);
                 response.setRefreshToken(refreshTokenReqiest.getToken());
@@ -105,9 +113,9 @@ public class UsersManagementService {
         ReqRes reqRes = new ReqRes();
 
         try {
-            List<Users> result = usersRepo.findAll();
+            List<Employees> result = employeesRepo.findAll();
             if (!result.isEmpty()) {
-                reqRes.setOurUsersList(result);
+                reqRes.setOurEmployeesList(result);
                 reqRes.setStatusCode(200);
                 reqRes.setMessage("Successful");
             } else {
@@ -126,10 +134,10 @@ public class UsersManagementService {
     public ReqRes getUsersById(Integer id) {
         ReqRes reqRes = new ReqRes();
         try {
-            Users usersById = usersRepo.findById(id).orElseThrow(() -> new RuntimeException("User Not found"));
-            reqRes.setOurUsers(usersById);
+            Employees employeesById = employeesRepo.findById(id).orElseThrow(() -> new RuntimeException("User Not found"));
+            reqRes.setOurEmployees(employeesById);
             reqRes.setStatusCode(200);
-            reqRes.setMessage("Users with id '" + id + "' found successfully");
+            reqRes.setMessage("Employees with id '" + id + "' found successfully");
         } catch (Exception e) {
             reqRes.setStatusCode(500);
             reqRes.setMessage("Error occurred: " + e.getMessage());
@@ -138,12 +146,12 @@ public class UsersManagementService {
     }
 
 
-    public ReqRes deleteUser(Integer userId) {
+    public ReqRes deleteUser(Integer employeeId) {
         ReqRes reqRes = new ReqRes();
         try {
-            Optional<Users> userOptional = usersRepo.findById(userId);
+            Optional<Employees> userOptional = employeesRepo.findById(employeeId);
             if (userOptional.isPresent()) {
-                usersRepo.deleteById(userId);
+                employeesRepo.deleteById(employeeId);
                 reqRes.setStatusCode(200);
                 reqRes.setMessage("User deleted successfully");
             } else {
@@ -157,18 +165,16 @@ public class UsersManagementService {
         return reqRes;
     }
 
-    public ReqRes updateUser(Integer userId, Users updatedUser) {
+    public ReqRes updateUser(Integer userId, Employees updatedUser) {
         ReqRes reqRes = new ReqRes();
         try {
-            Optional<Users> userOptional = usersRepo.findById(userId);
+            Optional<Employees> userOptional = employeesRepo.findById(userId);
             if (userOptional.isPresent()) {
-                Users existingUser = userOptional.get();
+                Employees existingUser = userOptional.get();
                 existingUser.setEmail(updatedUser.getEmail());
                 existingUser.setName(updatedUser.getName());
                 existingUser.setDistrict(updatedUser.getDistrict());
                 existingUser.setSabaha(updatedUser.getSabaha());
-                existingUser.setRegisternumber(updatedUser.getRegisternumber());
-                existingUser.setNumber(updatedUser.getNumber());
                 existingUser.setRole(updatedUser.getRole());
 
                 // Check if password is present in the request
@@ -177,8 +183,8 @@ public class UsersManagementService {
                     existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
                 }
 
-                Users savedUser = usersRepo.save(existingUser);
-                reqRes.setOurUsers(savedUser);
+                Employees savedUser = employeesRepo.save(existingUser);
+                reqRes.setOurEmployees(savedUser);
                 reqRes.setStatusCode(200);
                 reqRes.setMessage("User updated successfully");
             } else {
@@ -196,9 +202,9 @@ public class UsersManagementService {
     public ReqRes getMyInfo(String email){
         ReqRes reqRes = new ReqRes();
         try {
-            Optional<Users> userOptional = usersRepo.findByEmail(email);
+            Optional<Employees> userOptional = employeesRepo.findByEmail(email);
             if (userOptional.isPresent()) {
-                reqRes.setOurUsers(userOptional.get());
+                reqRes.setOurEmployees(userOptional.get());
                 reqRes.setStatusCode(200);
                 reqRes.setMessage("successful");
             } else {

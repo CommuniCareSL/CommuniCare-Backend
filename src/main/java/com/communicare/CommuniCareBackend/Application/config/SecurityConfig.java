@@ -1,6 +1,6 @@
 package com.communicare.CommuniCareBackend.Application.config;
 
-import com.communicare.CommuniCareBackend.Domain.service.OurUserDetailsService;
+import com.communicare.CommuniCareBackend.Domain.service.OurEmployeeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    private OurUserDetailsService ourUserDetailsService;
+    private OurEmployeeDetailsService ourEmployeeDetailsService;
 
     @Autowired
     private JWTAuthFilter jwtAuthFilter;
@@ -56,7 +56,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(ourUserDetailsService);
+        daoAuthenticationProvider.setUserDetailsService(ourEmployeeDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
