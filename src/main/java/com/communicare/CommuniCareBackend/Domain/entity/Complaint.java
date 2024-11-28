@@ -25,10 +25,6 @@ public class Complaint {
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
-    private User user;
-
-    @OneToOne
     @JoinColumn(name = "sabha_id", referencedColumnName = "sabhaId", nullable = false)
     private Sabha sabha;
 
