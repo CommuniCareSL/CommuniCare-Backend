@@ -1,6 +1,6 @@
 package com.communicare.CommuniCareBackend.Application.controllers;
 
-import com.communicare.CommuniCareBackend.Application.config.JWTUtilMA;
+import com.communicare.CommuniCareBackend.Application.config.JWTUtilApp;
 import com.communicare.CommuniCareBackend.Domain.entity.User;
 import com.communicare.CommuniCareBackend.Domain.service.UserServicesWEB;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class UserControllerWEB {
     private UserServicesWEB userServicesWEB;
 
     @Autowired
-    private JWTUtilMA jwtUtil;
+    private JWTUtilApp jwtUtil;
 
     @GetMapping("/by-pradeshiya-sabaha")
     public ResponseEntity<?> getUsersByPradeshiyaSabaha(

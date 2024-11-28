@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Component
-public class JWTUtilMA {
+public class JWTUtilApp {
 
     private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
