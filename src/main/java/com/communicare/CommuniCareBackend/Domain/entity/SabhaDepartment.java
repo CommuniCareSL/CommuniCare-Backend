@@ -9,7 +9,7 @@ public class SabhaDepartment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sabha_departmentId;
+    private int sabhaDepartmentId;
 
 
     @ManyToOne

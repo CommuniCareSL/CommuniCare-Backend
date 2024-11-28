@@ -11,23 +11,23 @@ import lombok.Setter;
 public class Sabha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sabhaId;
+    private int sabhaId;
 
     @Column(name = "sabha_name")
-    private String sabha_name;
+    private String sabhaName;
 
-    @Column(name = "sabha_district")
-    private String sabha_district;
+    @Column(name = "district")
+    private String district;
 
     @Column(name = "address")
     private String address;
 
     @Email(message = "Invalid email format")
     @Column( name= "sabha_mail",unique = true, nullable = false)
-    private String sabha_mail;
+    private String sabhaMail;
 
     @Pattern(regexp = "\\+?[0-9]{7,15}", message = "Contact number must be valid (7-15 digits, optional '+')")
-    private String contact_no;
+    private String contactNo;
 
 }
 
