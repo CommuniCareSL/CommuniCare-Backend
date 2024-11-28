@@ -1,5 +1,8 @@
 package com.communicare.CommuniCareBackend.Domain.entity;
 
+
+import jakarta.persistence.*;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +15,8 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int departmentId;
+    private Long department_id;
 
-    private String name;
+    @Column(name = "department_name")
+    private String department_name;
 }

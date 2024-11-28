@@ -1,26 +1,22 @@
 package com.communicare.CommuniCareBackend.Domain.entity;
 
-
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Data;
 
 @Entity
 @Data
-public class ComplaintCategory {
+public class Sabha_department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long complaintCategoryId;
+    private Long sabha_departmentId;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "sabha_id", nullable = false)
+    private Sabha sabha;
 
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
-
 }
