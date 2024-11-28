@@ -26,8 +26,8 @@ public class Employees implements UserDetails {
     private String role;
 
     @ManyToOne
-    @JoinColumn(name = "company_department_id", nullable = false)
-    private CompanyDepartment companyDepartmentId;
+    @JoinColumn(name = "sabha_department_id", nullable = false)
+    private SabhaDepartment sabhaDepartmentId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
