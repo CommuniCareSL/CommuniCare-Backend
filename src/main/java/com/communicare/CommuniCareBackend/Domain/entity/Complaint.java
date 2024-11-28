@@ -10,7 +10,7 @@ public class Complaint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long complaintId;
+    private int complaintId;
 
     @Lob
     @Column
