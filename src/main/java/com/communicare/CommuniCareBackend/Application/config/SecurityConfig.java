@@ -40,10 +40,11 @@ public class SecurityConfig {
                         .requestMatchers("/user/**").hasAnyAuthority("USER")
                         .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
                         // Mobile app specific access control (ensure proper paths are added here)
-                        .requestMatchers("/api/users/sign-up", "/api/users/login").permitAll()  // Mobile-specific sign-up/login
+                        .requestMatchers("/api/app/users/sign-up", "/api/app/users/login").permitAll()  // Mobile-specific sign-up/login
+                        .requestMatchers("/api/app/**").permitAll()
                         // Allow any other request for web and mobile (Open access to any URL)
-                        .anyRequest().permitAll() // Any other request is also permitted (open access)
-                        //.anyRequest().authenticated() // Any other request requires authentication
+                        //.anyRequest().permitAll() // Any other request is also permitted (open access)
+                        .anyRequest().authenticated() // Any other request requires authentication
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
                 .authenticationProvider(authenticationProvider())
