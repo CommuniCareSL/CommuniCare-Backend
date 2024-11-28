@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Sabha_department {
+public class SabhaDepartment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -28,5 +28,5 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "sabha_departmentId", nullable = false)
-    private Sabha_department sabha_department ;
+    private SabhaDepartment sabha_department ;
 }
