@@ -1,9 +1,9 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
 import com.communicare.CommuniCareBackend.Application.dto.ReqRes;
-import com.communicare.CommuniCareBackend.Domain.entity.CompanyDepartment;
 import com.communicare.CommuniCareBackend.Domain.entity.Employees;
-import com.communicare.CommuniCareBackend.External.repository.CompanyDepartmentRepo;
+import com.communicare.CommuniCareBackend.Domain.entity.SabhaDepartment;
+import com.communicare.CommuniCareBackend.External.repository.SabhaDepartmentRepo;
 import com.communicare.CommuniCareBackend.External.repository.EmployeesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +22,7 @@ public class EmployeesManagementService {
     private EmployeesRepo employeesRepo;
 
     @Autowired
-    private CompanyDepartmentRepo companyDepartmentRepo;
+    private SabhaDepartmentRepo sabhaDepartmentRepo;
 
     @Autowired
     private JWTUtils jwtUtils;
@@ -43,11 +43,11 @@ public class EmployeesManagementService {
             ourUser.setSabaha(registrationRequest.getSabaha());
             ourUser.setRole(registrationRequest.getRole());
             ourUser.setName(registrationRequest.getName());
-            // Fetch CompanyDepartment by ID
-            CompanyDepartment companyDepartment = companyDepartmentRepo
-                    .findById(registrationRequest.getCompanyDepartmentId())
-                    .orElseThrow(() -> new RuntimeException("Invalid company department ID"));
-            ourUser.setCompanyDepartmentId(companyDepartment);
+            // Fetch SabhaDepartment by ID
+            SabhaDepartment sabhaDepartment = sabhaDepartmentRepo
+                    .findById(registrationRequest.getSabhaDepartmentId())
+                    .orElseThrow(() -> new RuntimeException("Invalid sabha department ID"));
+            ourUser.setSabhaDepartmentId(sabhaDepartment);
             ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             Employees ourEmployeesResult = employeesRepo.save(ourUser);
             if (ourEmployeesResult.getEmployeeId()>0) {
