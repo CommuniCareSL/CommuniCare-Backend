@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 //Mobile App
 @Slf4j
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/app/users")
 public class UserController {
 
     @Autowired

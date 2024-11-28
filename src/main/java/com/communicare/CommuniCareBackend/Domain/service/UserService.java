@@ -1,7 +1,7 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
 //Mobile App
-import com.communicare.CommuniCareBackend.Application.config.JWTUtilMA;
+import com.communicare.CommuniCareBackend.Application.config.JWTUtilApp;
 import com.communicare.CommuniCareBackend.Application.dto.request.LoginRequest;
 import com.communicare.CommuniCareBackend.Application.dto.response.LoginResponse;
 import com.communicare.CommuniCareBackend.Domain.entity.User;
@@ -10,7 +10,6 @@ import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
 import com.communicare.CommuniCareBackend.Application.dto.response.SignUpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -52,7 +51,7 @@ public class UserService {
     }
 
     @Autowired
-    private JWTUtilMA jwtUtil;
+    private JWTUtilApp jwtUtil;
 
     public LoginResponse authenticateUser(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail())

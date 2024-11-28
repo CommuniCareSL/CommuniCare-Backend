@@ -2,22 +2,27 @@ package com.communicare.CommuniCareBackend.Domain.entity;
 
 import jakarta.persistence.*;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Complaint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long complaintId;
 
-    @Column(nullable = false)
-    private String description;
-
     @Lob
     @Column
     private byte[] proofs;  // Store image as binary data
 
-    @Column(nullable = false)
-    private String location;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
@@ -33,4 +38,5 @@ public class Complaint {
 
     
 }
+
 

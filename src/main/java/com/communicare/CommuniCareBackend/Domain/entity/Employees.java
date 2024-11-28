@@ -13,19 +13,21 @@ import java.util.List;
 @Entity
 @Table(name = "employees")
 @Data
-public class Users implements UserDetails {
+public class Employees implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer employeeId;
     private String email;
     private String district;
-    private String sabaha;
-    private Integer registernumber;
-    private Integer number;
+    private Integer sabaha;
     private String name;
     private String password;
     private String role;
+
+    @ManyToOne
+    @JoinColumn(name = "company_department_id", nullable = false)
+    private CompanyDepartment companyDepartmentId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
