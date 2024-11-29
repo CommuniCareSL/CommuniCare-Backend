@@ -4,7 +4,9 @@ package com.communicare.CommuniCareBackend.Domain.service;
 import com.communicare.CommuniCareBackend.Application.config.JWTUtilApp;
 import com.communicare.CommuniCareBackend.Application.dto.request.LoginRequest;
 import com.communicare.CommuniCareBackend.Application.dto.response.LoginResponse;
+import com.communicare.CommuniCareBackend.Domain.entity.Sabha;
 import com.communicare.CommuniCareBackend.Domain.entity.User;
+import com.communicare.CommuniCareBackend.External.repository.SabhaRepository;
 import com.communicare.CommuniCareBackend.External.repository.UserRepository;
 import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
 import com.communicare.CommuniCareBackend.Application.dto.response.SignUpResponse;
@@ -22,6 +24,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SabhaRepository sabhaRepository;
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public SignUpResponse registerUser(SignUpRequest signUpRequest) {
@@ -35,12 +40,20 @@ public class UserService {
             throw new IllegalArgumentException("ID Number already exists.");
         }
 
+        // Find the Sabha entity based on the ID passed in the request
+        Optional<Sabha> sabhaOptional = sabhaRepository.findById(signUpRequest.getSabhaId());
+        if (sabhaOptional.isEmpty()) {
+            throw new IllegalArgumentException("Invalid Sabha ID.");
+        }
+
+        Sabha sabha = sabhaOptional.get();
+
         User user = new User();
         user.setFullName(signUpRequest.getFullName());
         user.setIdNumber(signUpRequest.getIdNumber());
         user.setPhoneNumber(signUpRequest.getPhoneNumber());
         user.setDistrict(signUpRequest.getDistrict());
-        user.setPradeshiyaSabaha(signUpRequest.getPradeshiyaSabaha());
+        user.setSabha(sabha); // Associate the Sabha object
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setIsBlock(0);  // Set default value for isBlock
@@ -70,7 +83,9 @@ public class UserService {
         claims.put("userId", user.getUserId());
         claims.put("fullName", user.getFullName());
         claims.put("idNumber", user.getIdNumber());
-        claims.put("pradeshiyaSabaha", user.getPradeshiyaSabaha());
+        claims.put("sabahaId", user.getSabha().getSabhaId());
+        // or if you want to add the name of the Sabha
+        // claims.put("pradeshiyaSabahaName", user.getPradeshiyaSabaha().getSabhaName());
 
         // Generate JWT token
         String token = jwtUtil.generateToken(claims, user.getEmail());

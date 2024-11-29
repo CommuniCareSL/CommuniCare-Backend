@@ -28,8 +28,9 @@ public class User {
     @Column(name = "district")
     private String district;
 
-    @Column(name = "pradeshiya_sabaha")
-    private String pradeshiyaSabaha;
+    @ManyToOne
+    @JoinColumn(name = "sabhaId", referencedColumnName = "sabhaId", nullable = false)
+    private Sabha sabha; // Maps to the Sabha entity
 
     @Column(name = "email", unique = true)
     private String email;
