@@ -14,7 +14,7 @@ public class ComplaintCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long complaintCategoryId;
+    private int complaintCategoryId;
 
     @Column(name = "name", nullable = false)
     private String name;
