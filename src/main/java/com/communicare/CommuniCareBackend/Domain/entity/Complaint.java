@@ -12,24 +12,20 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int complaintId;
 
-    @Lob
-    @Column
-    private byte[] proofs;  // Store image as binary data
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "sabha_id", referencedColumnName = "sabhaId", nullable = false)
     private Sabha sabha;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "ComplaintCategoryId", nullable = false)
     private ComplaintCategory complaintCategory;
 
     // location (latitude and longitude)
-    @Column(columnDefinition = "point")
+    @Column(columnDefinition = "TEXT")
     private String location;  // Store as 'latitude,longitude' in the format "lat,lng" (e.g. "12.9716,77.5946")
 
     // location remark
@@ -41,6 +37,9 @@ public class Complaint {
 
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private int status;  // 0 -Reported, 1 -In Progress, 2 -Resolved
+
+    @Column(name = "proofs", columnDefinition = "TEXT")
+    private String proofs;  // Store image as binary data
 
     
 }
