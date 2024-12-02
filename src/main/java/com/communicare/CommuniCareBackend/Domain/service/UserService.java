@@ -93,6 +93,11 @@ public class UserService {
         return new LoginResponse(token, "Login successful");
     }
 
+    public long getTotalUserCount() {
+        return userRepository.count();
+    }
+
+
 
 //without JWT
 //    @Autowired

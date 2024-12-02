@@ -32,6 +32,8 @@ public class UserController {
     public LoginResponse login(@Valid @RequestBody LoginRequest loginRequest) {
         return userService.authenticateUser(loginRequest);
     }
+
+
 //without jwt
 //    @PostMapping("/login")
 //    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest) {

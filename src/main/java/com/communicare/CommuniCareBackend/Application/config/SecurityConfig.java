@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/user/**").hasAnyAuthority("USER")
                         .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/app/api/superadmin/**").permitAll()
                         // Mobile app specific access control (ensure proper paths are added here)
                         .requestMatchers("/app/api/users/sign-up", "/app/api/users/login").permitAll()  // Mobile-specific sign-up/login
                         .requestMatchers("/app/api/**").permitAll()
