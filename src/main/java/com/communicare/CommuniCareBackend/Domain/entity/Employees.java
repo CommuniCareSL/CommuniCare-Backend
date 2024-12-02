@@ -19,6 +19,8 @@ public class Employees implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer employeeId;
     private String email;
+    private String address;
+    private String nic;
     private String district;
     private Integer sabaha;
     private String name;

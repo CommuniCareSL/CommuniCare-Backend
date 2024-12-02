@@ -43,6 +43,8 @@ public class EmployeesManagementService {
             ourUser.setSabaha(registrationRequest.getSabaha());
             ourUser.setRole(registrationRequest.getRole());
             ourUser.setName(registrationRequest.getName());
+            ourUser.setAddress(registrationRequest.getAddress());
+            ourUser.setNic(registrationRequest.getNic());
             // Fetch SabhaDepartment by ID
             SabhaDepartment sabhaDepartment = sabhaDepartmentRepo
                     .findById(registrationRequest.getSabhaDepartmentId())
