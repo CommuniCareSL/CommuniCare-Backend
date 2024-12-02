@@ -27,9 +27,12 @@ public class ExcelProcessorService {
             Sheet sheet = workbook.getSheetAt(0); // Assuming data is in the first sheet
 
             for (Row row : sheet) {
-                String admin4NameEn = row.getCell(1).getStringCellValue(); // admin4Name_en is in the first column
-                if (admin4NameEn.equalsIgnoreCase(admin4Name)) {
-                    return (int) row.getCell(3).getNumericCellValue(); // admin3_id is in the second column
+                // Ensure the cell is not null before accessing its value
+                if (row.getCell(1) != null) {
+                    String admin4NameEn = row.getCell(1).getStringCellValue(); // admin4Name_en is in the second column
+                    if (admin4NameEn.toLowerCase().contains(admin4Name.toLowerCase())) { // Check for partial match
+                        return (int) row.getCell(3).getNumericCellValue(); // admin3_id is in the fourth column
+                    }
                 }
             }
 
