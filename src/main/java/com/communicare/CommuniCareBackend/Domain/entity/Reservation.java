@@ -5,17 +5,17 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Service {
+public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int serviceId;
+    private int reservationId;
 
-
-    @Column(name = "service_name")
-    private String serviceName;
+    @Column(name = "reservation_name")
+    private String reservationName;
 
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 }
+
