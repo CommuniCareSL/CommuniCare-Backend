@@ -3,6 +3,10 @@ package com.communicare.CommuniCareBackend.Domain.entity;
 import jakarta.persistence.*;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Data
@@ -40,6 +44,14 @@ public class Complaint {
 
     @Column(name = "proofs", columnDefinition = "TEXT")
     private String proofs;  // Store image as binary data
+
+    @CreationTimestamp
+    @Column(name = "created_date", nullable = false, updatable = false)
+    private LocalDate createdDate;  // Automatically stores the current date
+
+    @CreationTimestamp
+    @Column(name = "created_time", nullable = false, updatable = false)
+    private LocalTime createdTime;  // Automatically stores the current time
 
 
 }
