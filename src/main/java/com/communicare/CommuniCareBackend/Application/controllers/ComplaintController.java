@@ -28,4 +28,5 @@ public class ComplaintController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
 }

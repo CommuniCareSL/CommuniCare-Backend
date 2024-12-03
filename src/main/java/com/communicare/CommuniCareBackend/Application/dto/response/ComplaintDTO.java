@@ -1,18 +1,19 @@
 package com.communicare.CommuniCareBackend.Application.dto.response;
 
-
-import com.communicare.CommuniCareBackend.Domain.entity.Status;
 import lombok.Data;
 
 @Data
 public class ComplaintDTO {
-    private int complaintId;
-    private String description;
-    private byte[] proofs;
-    private String userName;
-    private String sabhaName;
-    private String categoryName;
-    private Status status;
-    private String handlerName;
+    private Integer complaintId;
+    private String complaintDescription;
+    private String location;
+    private String status;
     private String departmentName;
+    private String sabhaName;
+    private String employeeName;
+    private String categoryName; // Adding category name to DTO
+    private String proofs;
+    private String createdDate;
+    private String createdTime;
+    private String userName; // Adding user name to DTO
 }
