@@ -5,6 +5,8 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -28,6 +30,9 @@ public class Sabha {
 
     @Pattern(regexp = "\\+?[0-9]{7,15}", message = "Contact number must be valid (7-15 digits, optional '+')")
     private String contactNo;
+
+    @OneToMany(mappedBy = "sabha")
+    private List<SabhaDepartment> sabhaDepartments;
 
 }
 
