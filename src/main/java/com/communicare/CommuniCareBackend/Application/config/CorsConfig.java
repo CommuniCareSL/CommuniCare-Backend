@@ -20,6 +20,7 @@ public class CorsConfig {
 //                                "http://localhost:8080",  // Mobile app backend (if needed)
 //                                "*"                       // Allow all for web app
 //                        )
+                        .allowedOrigins("http://localhost:5173")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*");
             }
