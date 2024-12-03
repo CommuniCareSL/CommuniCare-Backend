@@ -50,14 +50,20 @@ public class PlaygroundReservationService {
         userReservation.setName((String) reservationData.get("name"));
         userReservation.setIdNumber((String) reservationData.get("idNumber"));
         userReservation.setPhoneNumber((String) reservationData.get("phoneNumber"));
-        userReservation.setEvent((String) reservationData.getOrDefault("event", ""));
-        userReservation.setDate(LocalDate.parse((String) reservationData.get("date")));
-        userReservation.setStatus(0);
+        userReservation.setLocation((String) reservationData.getOrDefault("location", "")); // Ensure location is empty if not provided
+        userReservation.setFrequency((String) reservationData.getOrDefault("frequency", "")); // Ensure frequency is empty if not provided
+        userReservation.setProofs((String) reservationData.getOrDefault("proofs", "")); // Ensure proofs is empty if not provided
+        userReservation.setEvent((String) reservationData.getOrDefault("event", "")); // Handle event (optional)
+        userReservation.setDate(LocalDate.parse((String) reservationData.get("date"))); // Handle date
+        userReservation.setStatus(0); // Default status: 0 (Reported)
 
         logger.info("Saving reservation for user ID: {}", userId);
         return userReservationRepository.save(userReservation);
     }
 }
+
+
+
 
 
 
