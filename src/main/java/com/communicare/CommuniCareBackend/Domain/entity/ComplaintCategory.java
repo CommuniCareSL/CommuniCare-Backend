@@ -23,4 +23,28 @@ public class ComplaintCategory {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    public Long getComplaintCategoryId() {
+        return complaintCategoryId;
+    }
+
+    public void setComplaintCategoryId(Long complaintCategoryId) {
+        this.complaintCategoryId = complaintCategoryId;
+    }
+
+    public String getCategoryName() {
+        return name;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.name = categoryName;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
 }
