@@ -10,15 +10,15 @@ public class UserReservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userserviceId;
+    private int userreservationId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "serviceId", referencedColumnName = "serviceId", nullable = false)
-    private Service service;
+    @JoinColumn(name = "reservationId", referencedColumnName = "reservationId", nullable = false)
+    private Reservation reservation;
 
     @Column(name = "name")
     private String name;
@@ -38,4 +38,6 @@ public class UserReservation {
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private int status;  // 0 - Reported, 1 - In Progress, 2 - Resolved
 }
+
+
 
