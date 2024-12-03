@@ -1,20 +1,17 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
 
-import com.communicare.CommuniCareBackend.Domain.entity.Complaint;
-import com.communicare.CommuniCareBackend.Domain.entity.ComplaintCategory;
-import com.communicare.CommuniCareBackend.Domain.entity.Sabha;
-import com.communicare.CommuniCareBackend.Domain.entity.User;
-import com.communicare.CommuniCareBackend.External.repository.ComplaintCategoryRepository;
-import com.communicare.CommuniCareBackend.External.repository.ComplaintRepository;
-import com.communicare.CommuniCareBackend.External.repository.SabhaRepository;
-import com.communicare.CommuniCareBackend.External.repository.UserRepository;
+import com.communicare.CommuniCareBackend.Application.dto.response.ComplaintDTO;
+import com.communicare.CommuniCareBackend.Domain.entity.*;
+import com.communicare.CommuniCareBackend.External.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +23,11 @@ public class ComplaintService {
     private final SabhaRepository sabhaRepository;
     private final ComplaintRepository complaintRepository;
     private final ComplaintCategoryRepository complaintCategoryRepository; // Add this repository
+    @Autowired
+    private EmployeesRepo employeeRepository;
+
+    private static final Long DEPARTMENT_ID = 3L; // Hard-coded department ID
+    private static final int SABHA_ID = 1; // Hard-coded sabha ID
 
     public Complaint processComplaintData(Map<String, Object> complaintData) throws Exception {
         // Step 1: Extract latitude, longitude, and categoryId
@@ -86,5 +88,52 @@ public class ComplaintService {
 
         // Step 7: Save the Complaint entity
         return complaintRepository.save(complaint);
+
     }
+
+    public List<ComplaintDTO> getComplaintDetailsForDepartmentAndSabha() {
+        // Step 1: Fetch all categories for the given department
+        List<ComplaintCategory> categories = complaintCategoryRepository.findByDepartment_DepartmentId(DEPARTMENT_ID);
+        List<Long> categoryIds = categories.stream().map(ComplaintCategory::getComplaintCategoryId).collect(Collectors.toList());
+
+        // Step 2: Fetch complaints for the given category IDs
+        List<Complaint> complaints = complaintRepository.findByComplaintCategory_ComplaintCategoryIdIn(categoryIds);
+
+        // Step 3: Map complaints to DTOs
+        return complaints.stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    private ComplaintDTO mapToDto(Complaint complaint) {
+        ComplaintDTO dto = new ComplaintDTO();
+        dto.setComplaintId(complaint.getComplaintId());
+        dto.setComplaintDescription(complaint.getDescription());
+        dto.setLocation(complaint.getLocation());
+        dto.setStatus(getComplaintStatusString(complaint.getStatus())); // Assuming this method exists
+        dto.setDepartmentName(complaint.getComplaintCategory().getDepartment().getDepartmentName());
+        dto.setSabhaName(complaint.getSabha().getSabhaName());
+        dto.setEmployeeName("Sunil "); // Adjust this if you need to fetch the employee's name
+        dto.setCategoryName(complaint.getComplaintCategory().getCategoryName()); // Set category name
+        dto.setProofs(complaint.getProofs());
+        dto.setCreatedDate(complaint.getCreatedDate().toString());
+        dto.setCreatedTime(complaint.getCreatedTime().toString());
+        dto.setUserName(complaint.getUser().getName()); // Assuming the User entity has a getName() method
+        return dto;
+    }
+
+    private String getComplaintStatusString(int status) {
+        // Implement this method based on your application's status codes
+        switch (status) {
+            case 0:
+                return "PENDING";
+            case 1:
+                return "IN PROGRESS";
+            case 2:
+                return "RESOLVED";
+            case 3:
+                return "REJECTED";
+            default:
+                return "PENDING";
+        }
+    }
+
 }
