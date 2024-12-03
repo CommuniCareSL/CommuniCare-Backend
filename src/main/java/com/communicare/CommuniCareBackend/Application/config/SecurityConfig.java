@@ -43,8 +43,8 @@ public class SecurityConfig {
                         .requestMatchers("/app/api/users/sign-up", "/app/api/users/login").permitAll()  // Mobile-specific sign-up/login
                         .requestMatchers("/app/api/**").permitAll()
                         // Allow any other request for web and mobile (Open access to any URL)
-                        //.anyRequest().permitAll() // Any other request is also permitted (open access)
-                        .anyRequest().authenticated() // Any other request requires authentication
+                        .anyRequest().permitAll() // Any other request is also permitted (open access)
+                        //.anyRequest().authenticated() // Any other request requires authentication
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
                 .authenticationProvider(authenticationProvider())
