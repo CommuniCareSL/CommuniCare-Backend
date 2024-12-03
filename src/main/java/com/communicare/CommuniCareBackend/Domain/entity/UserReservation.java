@@ -29,6 +29,16 @@ public class UserReservation {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "frequency")
+    private String frequency;
+
+    @Column(name = "proofs", columnDefinition = "TEXT")
+    private String proofs;
+
+
     @Column(nullable = true, columnDefinition = "TEXT")
     private String event;
 
