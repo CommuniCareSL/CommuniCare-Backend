@@ -53,6 +53,17 @@ public class Complaint {
     @Column(name = "created_time", nullable = false, updatable = false)
     private LocalTime createdTime;  // Automatically stores the current time
 
+    @Lob
+    private String remarkOrReject;
+
+    public String getRemarkOrRejectReason() {
+        return remarkOrReject;
+    }
+
+    // Setter for remarkOrRejectReason
+    public void setRemarkOrRejectReason(String remarkOrRejectReason) {
+        this.remarkOrReject = remarkOrRejectReason;
+    }
 
 }
 
