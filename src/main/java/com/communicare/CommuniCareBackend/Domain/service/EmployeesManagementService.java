@@ -1,5 +1,6 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
+import com.communicare.CommuniCareBackend.Application.dto.EmployeeDTO;
 import com.communicare.CommuniCareBackend.Application.dto.ReqRes;
 import com.communicare.CommuniCareBackend.Domain.entity.Employees;
 import com.communicare.CommuniCareBackend.Domain.entity.SabhaDepartment;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -147,6 +149,29 @@ public class EmployeesManagementService {
         return reqRes;
     }
 
+    public List<Employees> getOfficers() {
+        return employeesRepo.findByRole("OFFICER");
+    }
+
+    public List<EmployeeDTO> getAllOfficers() {
+        List<Employees> employees = employeesRepo.findEmployeesByRoleOfficer();
+        List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+
+        for (Employees employee : employees) {
+            EmployeeDTO dto = new EmployeeDTO(
+                    employee.getEmployeeId(),
+                    employee.getEmail(),
+                    employee.getAddress(),
+                    employee.getNic(),
+                    employee.getDistrict(),
+                    employee.getName(),
+                    employee.getRole(),
+                    employee.getSabhaDepartmentId().getSabhaDepartmentId() // Assuming department name is in SabhaDepartment
+            );
+            employeeDTOs.add(dto);
+        }
+        return employeeDTOs;
+    }
 
     public ReqRes deleteUser(Integer employeeId) {
         ReqRes reqRes = new ReqRes();

@@ -1,3 +1,4 @@
+
 package com.communicare.CommuniCareBackend.Domain.entity;
 
 import jakarta.persistence.*;
@@ -48,6 +49,4 @@ public class UserReservation {
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private int status;  // 0 - Reported, 1 - In Progress, 2 - Resolved
 }
-
-
 

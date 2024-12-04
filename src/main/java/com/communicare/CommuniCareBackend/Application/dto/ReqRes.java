@@ -29,5 +29,15 @@ public class ReqRes {
     private String password;
     private Employees ourEmployees;
     private List<Employees> ourEmployeesList;
+    private Object data; // Add this field for generic data
+
+    // Getter and Setter for data
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 
 }
