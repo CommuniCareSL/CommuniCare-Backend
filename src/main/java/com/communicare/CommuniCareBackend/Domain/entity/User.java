@@ -45,4 +45,8 @@ public class User {
     private int isDelete;
 
     // Constructor and other methods can be added if needed
+
+    public String getName() {
+        return this.fullName;
+    }
 }

@@ -4,8 +4,11 @@ package com.communicare.CommuniCareBackend.Domain.service;
 import com.communicare.CommuniCareBackend.Application.config.JWTUtilApp;
 import com.communicare.CommuniCareBackend.Application.dto.request.LoginRequest;
 import com.communicare.CommuniCareBackend.Application.dto.response.LoginResponse;
+import com.communicare.CommuniCareBackend.Application.dto.response.OfficerProfile;
+import com.communicare.CommuniCareBackend.Domain.entity.Employees;
 import com.communicare.CommuniCareBackend.Domain.entity.Sabha;
 import com.communicare.CommuniCareBackend.Domain.entity.User;
+import com.communicare.CommuniCareBackend.External.repository.EmployeesRepo;
 import com.communicare.CommuniCareBackend.External.repository.SabhaRepository;
 import com.communicare.CommuniCareBackend.External.repository.UserRepository;
 import com.communicare.CommuniCareBackend.Application.dto.request.SignUpRequest;
@@ -26,6 +29,9 @@ public class UserService {
 
     @Autowired
     private SabhaRepository sabhaRepository;
+
+    @Autowired
+    private EmployeesRepo employeesRepo;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -91,6 +97,26 @@ public class UserService {
         String token = jwtUtil.generateToken(claims, user.getEmail());
 
         return new LoginResponse(token, "Login successful");
+    }
+
+    public OfficerProfile getProfileByEmail(String email) {
+        Optional<Employees> optionalEmployee = employeesRepo.findByEmail(email);
+        if (optionalEmployee.isPresent()) {
+            Employees employee = optionalEmployee.get();
+            OfficerProfile profile = new OfficerProfile();
+            profile.setEmployeeId(employee.getEmployeeId());
+            profile.setEmail(employee.getEmail());
+            profile.setAddress(employee.getAddress());
+            profile.setNic(employee.getNic());
+            profile.setDistrict(employee.getDistrict());
+            profile.setSabaha(employee.getSabaha());
+            profile.setName(employee.getName());
+            profile.setRole(employee.getRole());
+            profile.setSabhaDepartmentId(employee.getSabhaDepartmentId().getSabhaDepartmentId()); // Assuming getId() returns the ID
+            return profile;
+        } else {
+            throw new RuntimeException("Employee not found with email: " + email);
+        }
     }
 
 
