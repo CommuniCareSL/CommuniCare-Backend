@@ -27,7 +27,7 @@ public class Employees implements UserDetails {
     private String password;
     private String role;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sabha_department_id", nullable = false)
     private SabhaDepartment sabhaDepartmentId;
 

@@ -1,3 +1,4 @@
+
 package com.communicare.CommuniCareBackend.Domain.entity;
 
 import jakarta.persistence.*;
@@ -18,4 +19,3 @@ public class Reservation {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 }
-
