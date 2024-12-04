@@ -87,4 +87,8 @@ public class ComplaintService {
         // Step 7: Save the Complaint entity
         return complaintRepository.save(complaint);
     }
+
+    public List<Complaint> getComplaintsByStatus(int status) {
+        return complaintRepository.findByStatus(status);
+    }
 }
