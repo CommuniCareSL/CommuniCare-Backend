@@ -4,21 +4,21 @@ package com.communicare.CommuniCareBackend.Application.dto.response;
 
 public class SignUpResponse {
 
-    private Long userId;
+    private Integer userId;
     private String message;
 
-    // Modify the constructor to accept Long userId
-    public SignUpResponse(Long userId, String message) {
+    // Modify the constructor to accept Integer userId
+    public SignUpResponse(Integer userId, String message) {
         this.userId = userId;
         this.message = message;
     }
 
     // Getters and Setters
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

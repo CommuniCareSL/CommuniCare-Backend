@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Sabha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sabhaId;
+    private Integer sabhaId;
 
     @Column(name = "sabha_name")
     private String sabhaName;
@@ -22,7 +22,6 @@ public class Sabha {
     @Column(name = "address")
     private String address;
 
-    @Email(message = "Invalid email format")
     @Column( name= "sabha_mail",unique = true, nullable = false)
     private String sabhaMail;
 
