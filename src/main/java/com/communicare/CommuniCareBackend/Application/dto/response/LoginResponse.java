@@ -9,6 +9,9 @@ import lombok.Data;
 public class LoginResponse {
     private String token;
     private String message;
+    private int userId;         // Add userId
+    private String fullName;    // Add fullName
+    private int sabhaId;
 }
 
 //without JWT
