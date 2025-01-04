@@ -90,7 +90,13 @@ public class UserService {
         // Generate JWT token
         String token = jwtUtil.generateToken(claims, user.getEmail());
 
-        return new LoginResponse(token, "Login successful");
+        return new LoginResponse(
+                token,
+                "Login successful",
+                user.getUserId(),            // Pass userId
+                user.getFullName(),          // Pass fullName
+                user.getSabha().getSabhaId() // Pass sabhaId
+        );
     }
 
 
