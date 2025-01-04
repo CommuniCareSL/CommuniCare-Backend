@@ -14,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId; // Primary key
+    private Integer userId; // Primary key
 
     @Column(name = "full_name")
     private String fullName;
@@ -29,7 +29,7 @@ public class User {
     private String district;
 
     @ManyToOne
-    @JoinColumn(name = "sabhaId", referencedColumnName = "sabhaId", nullable = false)
+    @JoinColumn(name = "sabhaId", nullable = false)
     private Sabha sabha; // Maps to the Sabha entity
 
     @Column(name = "email", unique = true)

@@ -9,7 +9,7 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reservationId;
+    private Integer reservationId;
 
     @Column(name = "reservation_name")
     private String reservationName;

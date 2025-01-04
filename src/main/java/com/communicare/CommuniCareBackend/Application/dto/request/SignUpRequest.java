@@ -25,7 +25,7 @@ public class SignUpRequest {
     private String district;
 
     @NotNull
-    private int sabhaId;
+    private Integer sabhaId;
 
     @Email
     @NotBlank

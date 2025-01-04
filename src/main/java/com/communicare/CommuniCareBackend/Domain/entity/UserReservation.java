@@ -10,7 +10,7 @@ public class UserReservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userreservationId;
+    private Integer userreservationId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
