@@ -1,10 +1,14 @@
 package com.communicare.CommuniCareBackend.Domain.service;
 
 import com.communicare.CommuniCareBackend.Application.dto.ReqRes;
+import com.communicare.CommuniCareBackend.Domain.entity.Department;
 import com.communicare.CommuniCareBackend.Domain.entity.Employees;
+import com.communicare.CommuniCareBackend.Domain.entity.Sabha;
 import com.communicare.CommuniCareBackend.Domain.entity.SabhaDepartment;
+import com.communicare.CommuniCareBackend.External.repository.DepartmentRepository;
 import com.communicare.CommuniCareBackend.External.repository.SabhaDepartmentRepo;
 import com.communicare.CommuniCareBackend.External.repository.EmployeesRepo;
+import com.communicare.CommuniCareBackend.External.repository.SabhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +29,12 @@ public class EmployeesManagementService {
     private SabhaDepartmentRepo sabhaDepartmentRepo;
 
     @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private SabhaRepository sabhaRepository;
+
+    @Autowired
     private JWTUtils jwtUtils;
 
     @Autowired
@@ -40,16 +50,26 @@ public class EmployeesManagementService {
             Employees ourUser = new Employees();
             ourUser.setEmail(registrationRequest.getEmail());
             ourUser.setDistrict(registrationRequest.getDistrict());
-            ourUser.setSabaha(registrationRequest.getSabaha());
+//            ourUser.setSabaha(registrationRequest.getSabaha());
+            Sabha sabha =  sabhaRepository
+                    .findById(registrationRequest.getSabhaId())
+                    .orElseThrow(() -> new RuntimeException("Invalid Sabha ID"));
+            ourUser.setSabha(sabha);
+
             ourUser.setRole(registrationRequest.getRole());
             ourUser.setName(registrationRequest.getName());
             ourUser.setAddress(registrationRequest.getAddress());
             ourUser.setNic(registrationRequest.getNic());
             // Fetch SabhaDepartment by ID
-            SabhaDepartment sabhaDepartment = sabhaDepartmentRepo
-                    .findById(registrationRequest.getSabhaDepartmentId())
-                    .orElseThrow(() -> new RuntimeException("Invalid sabha department ID"));
-            ourUser.setSabhaDepartmentId(sabhaDepartment);
+//            SabhaDepartment sabhaDepartment = sabhaDepartmentRepo
+//                    .findById(registrationRequest.getSabhaDepartmentId())
+//                    .orElseThrow(() -> new RuntimeException("Invalid sabha department ID"));
+//            ourUser.setSabhaDepartmentId(sabhaDepartment);
+            Department department =  departmentRepository
+                    .findById(registrationRequest.getDepartmentId())
+                    .orElseThrow(() -> new RuntimeException("Invalid department ID"));
+            ourUser.setDepartment(department);
+
             ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             Employees ourEmployeesResult = employeesRepo.save(ourUser);
             if (ourEmployeesResult.getEmployeeId()>0) {
@@ -176,7 +196,6 @@ public class EmployeesManagementService {
                 existingUser.setEmail(updatedUser.getEmail());
                 existingUser.setName(updatedUser.getName());
                 existingUser.setDistrict(updatedUser.getDistrict());
-                existingUser.setSabaha(updatedUser.getSabaha());
                 existingUser.setRole(updatedUser.getRole());
 
                 // Check if password is present in the request
