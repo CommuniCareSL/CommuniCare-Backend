@@ -22,9 +22,10 @@ public class ReqRes {
     private String address;
     private String nic;
     private String district;
-    private Integer sabaha;
+    private Integer sabhaId;
     private String role;
-    private Integer sabhaDepartmentId;
+//    private Integer sabhaDepartmentId;
+    private Integer departmentId;
     private String email;
     private String password;
     private Employees ourEmployees;

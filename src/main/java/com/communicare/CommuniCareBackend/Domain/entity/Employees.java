@@ -3,6 +3,8 @@ package com.communicare.CommuniCareBackend.Domain.entity;
 //Web App
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "employees")
 @Data
 public class Employees implements UserDetails {
@@ -22,14 +26,21 @@ public class Employees implements UserDetails {
     private String address;
     private String nic;
     private String district;
-    private Integer sabaha;
+//    private Integer sabaha;
+    @ManyToOne
+    @JoinColumn(name = "sabha_id", referencedColumnName = "sabhaId", nullable = false)
+    private Sabha sabha;
     private String name;
     private String password;
     private String role;
 
-    @ManyToOne
-    @JoinColumn(name = "sabha_department_id", nullable = false)
-    private SabhaDepartment sabhaDepartmentId;
+//    @ManyToOne
+//    @JoinColumn(name = "sabha_department_id", nullable = false)
+//    private SabhaDepartment sabhaDepartmentId;
+
+    @ManyToOne //many employees can belong to one department, each employee is associated with a single department
+    @JoinColumn(name = "department_id", referencedColumnName = "departmentId", nullable = false)
+    private Department department;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
