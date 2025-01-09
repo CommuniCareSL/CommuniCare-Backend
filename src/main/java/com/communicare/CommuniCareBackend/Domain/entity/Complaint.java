@@ -3,12 +3,16 @@ package com.communicare.CommuniCareBackend.Domain.entity;
 import jakarta.persistence.*;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
+@Getter
+@Setter
 @Data
 public class Complaint {
 
@@ -40,7 +44,7 @@ public class Complaint {
     private String description;
 
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
-    private int status;  // 0 -Reported, 1 -In Progress, 2 -Resolved
+    private int status;  // 0 -Pending, 1 -In Progress, 2 -Resolved, 3-Rejected
 
     @Column(name = "proofs", columnDefinition = "TEXT")
     private String proofs;  // Store image as binary data

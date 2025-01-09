@@ -94,9 +94,14 @@ public class EmployeesManagementService {
             var user = employeesRepo.findByEmail(loginRequest.getEmail()).orElseThrow();
             var jwt = jwtUtils.generateToken(user);
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+            // Access sabhaId and departmentId through the related objects
+            Integer sabhaId = user.getSabha() != null ? user.getSabha().getSabhaId() : null;
+            Integer departmentId = user.getDepartment() != null ? user.getDepartment().getDepartmentId() : null;
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRole(user.getRole());
+            response.setSabhaId(sabhaId);  // Set sabhaId
+            response.setDepartmentId(departmentId);
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hrs");
             response.setMessage("Successfully Logged In");

@@ -87,4 +87,8 @@ public class ComplaintService {
         // Step 7: Save the Complaint entity
         return complaintRepository.save(complaint);
     }
+
+    public List<Complaint> getComplaints(int sabhaId, int departmentId) {
+        return complaintRepository.findComplaintsBySabhaAndDepartment(sabhaId, departmentId);
+    }
 }
